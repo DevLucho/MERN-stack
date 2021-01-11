@@ -1,35 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import Loading from './Loading'
-import { getProducts } from '../services/index'
-import { Container, Section } from 'react-bulma-components'
+import React from 'react'
+import { Card, Columns, Heading } from 'react-bulma-components'
 
-const ListProducts = () => {
-    const [isLoading, setIsLoading] = useState(true)
-
-    const [products, setProducts] = useState([])
-
-    // Despues de renderizar se ejecuta
-    useEffect(() => {
-        async function loadProducts(){
-            const response = await getProducts()
-            if (response.status === 200) {
-                setProducts(response.data.products)
+const ListProducts = ({ products }) => {
+    return (
+        <Columns></Columns>
+            {
+                products.map(product => {
+                    return (
+                        <Columns.Column size={4}>
+                            <Card>
+                                <Card.Image size="16by9" src={product.imgUrl} />
+                                <Card.Content>
+                                    <Heading>{product.name}</Heading>
+                                    <Heading subtitle size={6}>{product.unitaryPrice}</Heading>
+                                    <Heading subtitle size={6}>{product.size}</Heading>
+                                    <p>{product.description}</p>
+                                </Card.Content>
+                            </Card>
+                        </Columns.Column>
+                    )
+                })
             }
-            setIsLoading(false)
-        }
+        </Columns>
+    )
 
-        loadProducts()
-    }, []) //-> [] para ejecutar solo la primera vez.
-
-    if (isLoading) {
-        return <Loading/>
-    }
-
-    if(!products.length){
-        return  <h2 className="title has-text-centered">No hay productos.</h2>
-    }
-
-    return 'Mostrar'
 }
 
 export default ListProducts
