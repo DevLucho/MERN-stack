@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import Loading from './Loading'
+import { getProducts } from '../services/index'
 
 const ListProducts = () => {
     const [isLoading, setIsLoading] = useState(true)
-    
+
+    const [products, setProducts] = useState([])
+
     // Despues de renderizar se ejecuta
     useEffect(() => {
-        const timeId = setInterval(() => {
-            console.log('useEffect');
-            setIsLoading(!isLoading)
-        },10000)
+        async function loadProducts(){
+            const response = await getProducts()
+            if (response.status === 200) {
+                setProducts(response.data.products)
+            }
+        }
 
-        return () => clearInterval(timeId)
-    })
+        loadProducts()
+    }, []) //-> [] para ejecutar solo la primera vez.
 
-    useEffect(()=>{
-        console.log('onlu once time');
-    }, [isLoading])
 
     return (
         isLoading ? <Loading /> : 'Mostrar fetch'
