@@ -12,3 +12,16 @@ export async function getProducts() {
         console.error(error);
     }
 }
+
+export async function saveProduct(productData) {
+    try {
+        const response = await axios({
+            url: `${baseUrl}/products`,
+            method: 'POST',
+            data: productData
+        })
+        return response
+    } catch (error) {
+        console.error(error);
+    }
+}

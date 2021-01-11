@@ -1,17 +1,30 @@
-import React from 'react'
-import Header from './Header'
-import AddButton from './AddButton'
-import ListProducts from './ListProducts'
+import React, { useState } from 'react'
+import { Modal } from 'react-bulma-components'
+import { AddButton, Header, ListProducts, Form  } from './'
+
 
 const ProductLayout = () => {
-    //<Button onClick={()=> setIsLoading(!isLoading)} >Update</Button>
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
-        <div>
+        <>
             <Header title="Products app"></Header>
-            <AddButton />
-            <ListProducts/>
-        </div>
+            <AddButton onClick={() => setIsModalOpen(true)} />
+            <ListProducts />
+            <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <Modal.Card>
+                    <Modal.Card.Head showClose={true}>
+                        <Modal.Card.Title>
+                            From
+                        </Modal.Card.Title>
+                    </Modal.Card.Head>
+                    <Modal.Card.Body>
+                        <Form/>
+                    </Modal.Card.Body>
+                </Modal.Card>
+            </Modal>
+        </>
     )
 }
 
